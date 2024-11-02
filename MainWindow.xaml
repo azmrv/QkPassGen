@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuickPassWrodGennerator"
-        xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Collections="clr-namespace:System.Collections;assembly=mscorlib" x:Name="MnWndwPassGen" x:Class="QuickPassWrodGennerator.MainWindow"
+        xmlns:local="clr-namespace:QuickPassWordGenerator"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Collections="clr-namespace:System.Collections;assembly=mscorlib" x:Name="MnWndwPassGen" x:Class="QuickPassWordGenerator.MainWindow"
         mc:Ignorable="d"
-        Title="Quick Password Generator v1.123.123" Height="500" Width="800" ResizeMode="NoResize" ScrollViewer.VerticalScrollBarVisibility="Disabled" WindowStyle="ThreeDBorderWindow" Icon="/images (1).png">
+        Title="Quick Password Generator v1.123.123" Height="500" Width="800" ResizeMode="NoResize" ScrollViewer.VerticalScrollBarVisibility="Disabled" WindowStyle="ThreeDBorderWindow">
     <Grid x:Name="MainGrid" AutomationProperties.Name="MainPGGrid" Height="500" Width="800">
         <Button x:Name="BtnGnrtPsswrd" Content="Generate" HorizontalAlignment="Left" Margin="462,401,0,0" VerticalAlignment="Top"  Click="BtnGnrtPsswrd_Click" Height="27" Width="70"/>
         <Button x:Name="BtnCpTBffr" Content="CopyRandomOneToBuffer" HorizontalAlignment="Left" Margin="546,401,0,0" VerticalAlignment="Top" Height="27" Width="156" Click="BtnCpTBffr_Click"/>
@@ -21,7 +21,7 @@
         <CheckBox x:Name="ChkBxIsABC" Content="Dictionary" HorizontalAlignment="Left" Margin="15,318,0,0" VerticalAlignment="Top" AutomationProperties.Name="ChkBxIsABC" Height="15" Width="105" RenderTransformOrigin="0.47,-0.797"/>
         <CheckBox x:Name="ChkBxIsLatn" Content="Latn" HorizontalAlignment="Left" Margin="14,264,0,0" VerticalAlignment="Top" IsChecked="True" AutomationProperties.Name="ChkBxIsLatn" Height="17" Width="72"/>
         <CheckBox x:Name="ChkBxIsCyrl" Content="Cyrl" HorizontalAlignment="Left" Margin="14,286,0,0" VerticalAlignment="Top" AutomationProperties.Name="ChkBxIsCyrl" Height="15" Width="49"/>
-        <ComboBox x:Name="CmbBxStrPsswrdLenght" HorizontalAlignment="Left" Margin="131,12,0,0" VerticalAlignment="Top" Width="128" IsEditable="True" AutomationProperties.Name="CmbBxStrPsswrdLenght" Height="32" AutomationProperties.HelpText="" Text="28" FontSize="16" FontWeight="Medium">
+        <ComboBox x:Name="CmbBxStrPsswrdLength" HorizontalAlignment="Left" Margin="131,12,0,0" VerticalAlignment="Top" Width="128" IsEditable="True" AutomationProperties.Name="CmbBxStrPsswrdLenght" Height="32" AutomationProperties.HelpText="" Text="28" FontSize="16" FontWeight="Medium">
             <System:String>8</System:String>
             <System:String>10</System:String>
             <System:String>12</System:String>
