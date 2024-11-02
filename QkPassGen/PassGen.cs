@@ -1,29 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using System;
-
-Чтобы улучшить класс PassGen, можно внести следующие изменения:
-
-1. * *Добавить проверку на дублирование паролей.** Для этого нужно использовать HashSet для хранения уже сгенерированных паролей и проверять, не содержится ли новый пароль в этом множестве. Если пароль уже есть, то нужно сгенерировать новый.
-
-2. **Реализовать дополнительные функции.** Можно добавить функцию проверки сложности пароля, которая будет оценивать его по определённым критериям (длина, наличие цифр, специальных символов и т. д.). Также можно добавить возможность генерации паролей заданной длины и сложности.
-
-3. **Использовать более эффективные алгоритмы.** Вместо использования одного алгоритма генерации паролей можно использовать несколько алгоритмов, чтобы обеспечить лучшую случайность и безопасность. Например, можно использовать алгоритм генерации случайных чисел для выбора символов из алфавита и алгоритм перемешивания для получения окончательного пароля.
-
-4. **Улучшить обработку ошибок.** В случае возникновения ошибок при генерации паролей необходимо предоставить пользователю информативное сообщение об ошибке. Также можно добавить обработку исключений, чтобы предотвратить аварийное завершение программы.
-
-5. **Оптимизировать код.** Можно оптимизировать код, чтобы он работал быстрее и использовал меньше памяти. Для этого можно использовать более эффективные структуры данных и алгоритмы.
-
-6. **Сделать код более читаемым.** Можно сделать код более читаемым, используя понятные имена переменных и функций, а также добавляя комментарии. Это упростит понимание кода и его поддержку в будущем.
-
-7. **Тестировать код.** Необходимо провести тестирование кода, чтобы убедиться в его надёжности и безопасности. Это поможет выявить и исправить возможные проблемы до выпуска окончательной версии программы.
-
-8. **Документировать код.** Добавление комментариев к коду и документации поможет другим разработчикам понять логику работы приложения и упростить его поддержку в будущем.
-
-Пример улучшенного класса PassGen:
-```csharp
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
@@ -44,7 +19,7 @@ namespace QuickPassWordGenerator
         bool isUSEABC = false;
         bool isLatn = true;
         bool isCyrl = false;
-        int passwordLenght = 28;
+        int passwordLength = 28;
         int passwordsQuantity = 1;
         string customDict = null;
 
@@ -65,9 +40,11 @@ namespace QuickPassWordGenerator
         public bool IsUSEABC { get => isUSEABC; set => isUSEABC = value; }
         public bool IsLatn { get => isLatn; set => isLatn = value; }
         public bool IsCyrl { get => isCyrl; set => isCyrl = value; }
-        public int PasswordLenght { get => passwordLenght; set => passwordLenght = value; }
+        public int PasswordLength { get => passwordLength; set => passwordLength = value; }
         public int PasswordsQuantity { get => passwordsQuantity; set => passwordsQuantity = value; }
         public string CustomDict { get => customDict; set => customDict = value; }
+        private StringBuilder PasswordsDictionary { get => passwordsDictionary; set => passwordsDictionary = value; }
+        private HashSet<string> CurrentPasswordList { get => currentPasswordList; set => currentPasswordList = value; }
 
         public PassGen()
         {
@@ -190,7 +167,7 @@ namespace QuickPassWordGenerator
         }
 
         // Генерация списка паролей
-        public List<string> PassWrdGen()
+        public HashSet<string> PassWrdGen()
         {
             currentPasswordList.Clear();
 
@@ -200,4 +177,11 @@ namespace QuickPassWordGenerator
 
                 if (!currentPasswordList.Contains(psswrd))
                 {
-        
+                    currentPasswordList.Add(psswrd);
+                }
+            }
+
+            return currentPasswordList;
+        }
+    }
+}
