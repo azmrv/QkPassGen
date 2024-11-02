@@ -173,7 +173,7 @@ namespace QuickPassWordGenerator
 
             while (currentPasswordList.Count < PasswordsQuantity)
             {
-                string psswrd = GeneratePassword(new Random(GetCryptographicallyRandomInt()), PasswordLenght, PasswordsDictionary.ToString().ToCharArray());
+                string psswrd = GeneratePassword(new Random(GetCryptographicallyRandomInt()), PasswordLength, PasswordsDictionary.ToString().ToCharArray());
 
                 if (!currentPasswordList.Contains(psswrd))
                 {

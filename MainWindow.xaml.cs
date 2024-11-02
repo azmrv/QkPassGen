@@ -1,6 +1,7 @@
 ﻿using QuickPassWordGenerator;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 
@@ -13,7 +14,7 @@ namespace QuickPassWordGenerator
     public partial class MainWindow : Window
     {
         PassGen passwordGenerator;
-        List<string> currentPasswordList = new List<string>();
+        HashSet<string> currentPasswordList = new HashSet<string>(); //List<string>();
         Dictionary<int, string> savedSettings = new Dictionary<int, string>();
 
         public MainWindow()
@@ -113,7 +114,8 @@ namespace QuickPassWordGenerator
             if (currentPasswordList.Count > 0)
             {
                 Random rnd = new Random();
-                string cpsswrd = currentPasswordList[rnd.Next(0, passwordGenerator.PasswordsQuantity - 1)];
+                int index = rnd.Next(currentPasswordList.Count);
+                string cpsswrd = currentPasswordList.ElementAt(index);
                 Clipboard.SetText(cpsswrd);
                 RTxBxPswrdList.Document.Blocks.Clear();
                 RTxBxPswrdList.Document.Blocks.Add(new Paragraph(new Run(cpsswrd)));
