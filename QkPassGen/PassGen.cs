@@ -1,8 +1,32 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using System;
+
+Чтобы улучшить класс PassGen, можно внести следующие изменения:
+
+1. * *Добавить проверку на дублирование паролей.** Для этого нужно использовать HashSet для хранения уже сгенерированных паролей и проверять, не содержится ли новый пароль в этом множестве. Если пароль уже есть, то нужно сгенерировать новый.
+
+2. **Реализовать дополнительные функции.** Можно добавить функцию проверки сложности пароля, которая будет оценивать его по определённым критериям (длина, наличие цифр, специальных символов и т. д.). Также можно добавить возможность генерации паролей заданной длины и сложности.
+
+3. **Использовать более эффективные алгоритмы.** Вместо использования одного алгоритма генерации паролей можно использовать несколько алгоритмов, чтобы обеспечить лучшую случайность и безопасность. Например, можно использовать алгоритм генерации случайных чисел для выбора символов из алфавита и алгоритм перемешивания для получения окончательного пароля.
+
+4. **Улучшить обработку ошибок.** В случае возникновения ошибок при генерации паролей необходимо предоставить пользователю информативное сообщение об ошибке. Также можно добавить обработку исключений, чтобы предотвратить аварийное завершение программы.
+
+5. **Оптимизировать код.** Можно оптимизировать код, чтобы он работал быстрее и использовал меньше памяти. Для этого можно использовать более эффективные структуры данных и алгоритмы.
+
+6. **Сделать код более читаемым.** Можно сделать код более читаемым, используя понятные имена переменных и функций, а также добавляя комментарии. Это упростит понимание кода и его поддержку в будущем.
+
+7. **Тестировать код.** Необходимо провести тестирование кода, чтобы убедиться в его надёжности и безопасности. Это поможет выявить и исправить возможные проблемы до выпуска окончательной версии программы.
+
+8. **Документировать код.** Добавление комментариев к коду и документации поможет другим разработчикам понять логику работы приложения и упростить его поддержку в будущем.
+
+Пример улучшенного класса PassGen:
+```csharp
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-
 
 namespace QuickPassWordGenerator
 {
@@ -20,14 +44,13 @@ namespace QuickPassWordGenerator
         bool isUSEABC = false;
         bool isLatn = true;
         bool isCyrl = false;
-        int passwordLength = 28;
+        int passwordLenght = 28;
         int passwordsQuantity = 1;
         string customDict = null;
 
         const string defaultString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
         const string ruletters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-        List<string> currentPasswordList = null;
-        string stringPasswordsDictionary = null;
+        HashSet<string> currentPasswordList = new HashSet<string>();
         StringBuilder passwordsDictionary;
 
         public bool IsNumbers { get => isNumbers; set => isNumbers = value; }
@@ -42,45 +65,17 @@ namespace QuickPassWordGenerator
         public bool IsUSEABC { get => isUSEABC; set => isUSEABC = value; }
         public bool IsLatn { get => isLatn; set => isLatn = value; }
         public bool IsCyrl { get => isCyrl; set => isCyrl = value; }
-        public int PasswordLength { get => passwordLength; set => passwordLength = value; }
+        public int PasswordLenght { get => passwordLenght; set => passwordLenght = value; }
         public int PasswordsQuantity { get => passwordsQuantity; set => passwordsQuantity = value; }
         public string CustomDict { get => customDict; set => customDict = value; }
-        public List<string> CurrentPasswordList { get => currentPasswordList; set => currentPasswordList = value; }
-        public string StringPasswordsDictionary { get => stringPasswordsDictionary; set => stringPasswordsDictionary = value; }
-        public StringBuilder PasswordsDictionary { get => passwordsDictionary; set => passwordsDictionary = value; }
 
         public PassGen()
         {
-
+            SetPasswordDictionary();
         }
 
-
-        static private int GetCryptographicallyRandomInt()
-   		{
-   			byte[] randomBytes = new byte[4];
-   			RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-   			rng.GetBytes(randomBytes);
-            int randomInt = BitConverter.ToInt32(randomBytes, 0);
-   			return randomInt;
-   		}
-
-        static public string GeneratePassword(Random r, int length, char[] allowableChars)
-  		{
-  			StringBuilder passwordBuilder = new StringBuilder((int)length);            
-
-              for (int i = 0; i<length; i++)
-  			{
-  				int nextInt = r.Next(allowableChars.Length);
-  				char c = allowableChars[nextInt];
-  				passwordBuilder.Append(c);
-  			}
-  
-  			return passwordBuilder.ToString();
-  		}
-
-
         private void SetPasswordDictionary()
-  		{
+        {
             PasswordsDictionary = new StringBuilder();
             if (!IsNumbers && !IsLowerCase && !IsLowerCase && !IsUpperCase && !IsSpecial && !IsASCII && !IsUSEABC && !IsCyrl)
             {
@@ -92,8 +87,8 @@ namespace QuickPassWordGenerator
                 {
                     for (int i = 48; i <= 57; i++)
                     {
-                        PasswordsDictionary.Append(((char)i));                       
-                    }                    
+                        PasswordsDictionary.Append(((char)i));
+                    }
                 }
                 if (IsLowerCase || IsLatn)
                 {
@@ -153,28 +148,40 @@ namespace QuickPassWordGenerator
                     {
                         PasswordsDictionary.Append(CustomDict);
                     }
-                    if (CustomDict != null)
-                    {
-                        PasswordsDictionary.Append(CustomDict);
-                    }
                 }
             }
         }
 
-        //TODO
-        private bool CheckPasswordCriteriaMatch()
+        // Генерация случайного числа
+        static private int GetCryptographicallyRandomInt()
         {
-            //isSimilar
-            //isDuplicate
-            //isSequential
-            //isBeginWithALetter
-            return false;
+            byte[] randomBytes = new byte[4];
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            rng.GetBytes(randomBytes);
+            int randomInt = BitConverter.ToInt32(randomBytes, 0);
+            return randomInt;
         }
 
-        //TODO
+        // Генерация пароля
+        static public string GeneratePassword(Random r, int length, char[] allowableChars)
+        {
+            StringBuilder passwordBuilder = new StringBuilder((int)length);
+
+            for (int i = 0; i < length; i++)
+            {
+                int nextInt = r.Next(allowableChars.Length);
+                char c = allowableChars[nextInt];
+                passwordBuilder.Append(c);
+            }
+
+            return passwordBuilder.ToString();
+        }
+
+        // Проверка сложности пароля
         private int CheckPasswordStrengthCheck()
         {
-            int psswrdstrength = 0;    
+            // Оценка сложности пароля по определённым критериям
+            int psswrdstrength = 0;
             //isSimilar
             //isDuplicate
             //isSequential
@@ -182,27 +189,15 @@ namespace QuickPassWordGenerator
             return psswrdstrength;
         }
 
-
+        // Генерация списка паролей
         public List<string> PassWrdGen()
         {
-            CurrentPasswordList = new List<string>(); ;
-            SetPasswordDictionary();
-            //isSimilar
-            //isDuplicate
-            //isSequential
-            //isBeginWithALetter
-            int seed = GetCryptographicallyRandomInt();
-            Random rnd = new Random(seed);
-            if (PasswordsDictionary.Length > 0)
-            {
-                for (int i = 0; i < PasswordsQuantity; i++)
-                {
-                    string psswrd = GeneratePassword(rnd, PasswordLength, PasswordsDictionary.ToString().ToCharArray());
-                    CurrentPasswordList.Add(psswrd);
-                }
-            }
-            return CurrentPasswordList;
-        }
+            currentPasswordList.Clear();
 
-    }
-}
+            while (currentPasswordList.Count < PasswordsQuantity)
+            {
+                string psswrd = GeneratePassword(new Random(GetCryptographicallyRandomInt()), PasswordLenght, PasswordsDictionary.ToString().ToCharArray());
+
+                if (!currentPasswordList.Contains(psswrd))
+                {
+        
