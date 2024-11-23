@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:QuickPassWordGenerator"
         xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Collections="clr-namespace:System.Collections;assembly=mscorlib" x:Name="MnWndwPassGen" x:Class="QuickPassWordGenerator.MainWindow"
         mc:Ignorable="d"
-        Title="Quick Password Generator v1.123.123" Height="500" Width="800" ResizeMode="NoResize" ScrollViewer.VerticalScrollBarVisibility="Disabled" WindowStyle="ThreeDBorderWindow">
+        Title="Quick Password Generator v1.123.126" Height="500" Width="800" ResizeMode="NoResize" ScrollViewer.VerticalScrollBarVisibility="Disabled" WindowStyle="ThreeDBorderWindow">
     <Grid x:Name="MainGrid" AutomationProperties.Name="MainPGGrid" Height="500" Width="800">
         <Button x:Name="BtnGnrtPsswrd" Content="Generate" HorizontalAlignment="Left" Margin="462,401,0,0" VerticalAlignment="Top"  Click="BtnGnrtPsswrd_Click" Height="27" Width="70"/>
         <Button x:Name="BtnCpTBffr" Content="CopyRandomOneToBuffer" HorizontalAlignment="Left" Margin="546,401,0,0" VerticalAlignment="Top" Height="27" Width="156" Click="BtnCpTBffr_Click"/>

@@ -67,18 +67,21 @@ namespace QuickPassWordGenerator
                         PasswordsDictionary.Append(((char)i));
                     }
                 }
-                if (IsLowerCase || IsLatn)
+                if (IsLatn)
                 {
-                    for (int i = 97; i <= 122; i++)
+                    if (IsLowerCase)
                     {
-                        PasswordsDictionary.Append(((char)i));
+                        for (int i = 97; i <= 122; i++)
+                        {
+                            PasswordsDictionary.Append(((char)i));
+                        }
                     }
-                }
-                if (IsUpperCase || IsLatn)
-                {
-                    for (int i = 65; i <= 90; i++)
+                    if (IsUpperCase)
                     {
-                        PasswordsDictionary.Append(((char)i));
+                        for (int i = 65; i <= 90; i++)
+                        {
+                            PasswordsDictionary.Append(((char)i));
+                        }
                     }
                 }
                 //if (IsLowerCase && IsCyrl)
@@ -143,7 +146,7 @@ namespace QuickPassWordGenerator
         static public string GeneratePassword(Random r, int length, char[] allowableChars)
         {
             StringBuilder passwordBuilder = new StringBuilder((int)length);
-
+            
             for (int i = 0; i < length; i++)
             {
                 int nextInt = r.Next(allowableChars.Length);
@@ -169,6 +172,7 @@ namespace QuickPassWordGenerator
         // Генерация списка паролей
         public HashSet<string> PassWrdGen()
         {
+            SetPasswordDictionary();
             currentPasswordList.Clear();
 
             while (currentPasswordList.Count < PasswordsQuantity)

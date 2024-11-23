@@ -22,6 +22,7 @@ namespace QuickPassWordGenerator
             InitializeComponent();
             passwordGenerator = new PassGen();
             SetupPassWordData();
+            RTxBxPswrdList.Document.Blocks.Clear();
         }
 
  
@@ -52,7 +53,7 @@ namespace QuickPassWordGenerator
         }
 
         private void SetupPassWordData()
-        {
+        {            
             GetDataFromControls();
 
             if (!savedSettings.ContainsKey(passwordGenerator.GetHashCode()))
@@ -90,12 +91,26 @@ namespace QuickPassWordGenerator
                 passwordGenerator.PasswordsQuantity = 255;
             }
 
+            if (ChkBxClrPswrdsLst.IsChecked == true) 
+            {
+                RTxBxPswrdList.Document.Blocks.Clear();
+            }   
+
             CBxQntt.Text = passwordGenerator.PasswordsQuantity.ToString();
         }
 
         private void GeneratePassword()
         {
-            currentPasswordList = passwordGenerator.PassWrdGen();
+            if (currentPasswordList.Count > 0)
+            {                
+                currentPasswordList = new HashSet<string>();
+                currentPasswordList = passwordGenerator.PassWrdGen();
+            }
+            else
+            {
+                currentPasswordList = passwordGenerator.PassWrdGen();
+            }
+            
 
             foreach (var item in currentPasswordList)
             {
@@ -115,10 +130,10 @@ namespace QuickPassWordGenerator
             {
                 Random rnd = new Random();
                 int index = rnd.Next(currentPasswordList.Count);
-                string cpsswrd = currentPasswordList.ElementAt(index);
-                Clipboard.SetText(cpsswrd);
+                string passlist = currentPasswordList.ElementAt(index);
+                Clipboard.SetText(passlist);
                 RTxBxPswrdList.Document.Blocks.Clear();
-                RTxBxPswrdList.Document.Blocks.Add(new Paragraph(new Run(cpsswrd)));
+                RTxBxPswrdList.Document.Blocks.Add(new Paragraph(new Run(passlist)));
             }
         }
 
